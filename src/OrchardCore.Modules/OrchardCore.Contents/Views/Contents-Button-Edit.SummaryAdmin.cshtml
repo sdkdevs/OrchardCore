@@ -1,14 +1,15 @@
+@using Microsoft.AspNetCore.Authorization
 @using OrchardCore.ContentManagement
+@inject IAuthorizationService AuthorizationService
 @inject IContentManager ContentManager
 
 @{
     ContentItem contentItem = Model.ContentItem;
     var hasPublished = await ContentManager.HasPublishedVersionAsync(contentItem);
+    var hasEditOwnContentPermission = await AuthorizationService.AuthorizeAsync(User, OrchardCore.Contents.Permissions.EditOwnContent, contentItem);
+    var hasEditContentPermission = await AuthorizationService.AuthorizeAsync(User, OrchardCore.Contents.Permissions.EditContent, contentItem);
 }
 
-<a edit-for="@contentItem" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm">@T["Edit"]</a>
+<a edit-for="@contentItem" asp-route-returnUrl="@FullRequestPath" class="btn btn-primary btn-sm @((hasEditOwnContentPermission && contentItem.Owner == User.Identity.Name) || hasEditContentPermission ? string.Empty : "disabled")">@T["Edit"]</a>
 
-@if (hasPublished)
-{
-    <a display-for="@contentItem" class="btn btn-success btn-sm" itemprop="">@T["View"]</a>
-}
+<a display-for="@contentItem" class="btn btn-success btn-sm @(hasPublished ? string.Empty : "disabled")" itemprop="">@T["View"]</a>
