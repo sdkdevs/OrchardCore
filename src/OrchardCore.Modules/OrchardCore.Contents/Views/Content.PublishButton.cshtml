@@ -4,7 +4,6 @@
 @{
     ContentItem contentItem = Model.ContentItem;
     var returnUrl = Context.Request.Query["returnUrl"];
-    var hasPublishOwnContentPermission = await AuthorizationService.AuthorizeAsync(User, OrchardCore.Contents.Permissions.PublishOwnContent, contentItem);
     var hasPublishContentPermission = await AuthorizationService.AuthorizeAsync(User, OrchardCore.Contents.Permissions.PublishContent, contentItem);
 }
 
@@ -16,12 +15,12 @@
 else
 {
     <div class="btn-group">
-        <button class="publish-button btn btn-success @(hasPublishOwnContentPermission || hasPublishContentPermission ? string.Empty : "disabled")" type="submit" name="submit.Publish" value="submit.Publish">@T["Publish"]</button>
-        <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split @(hasPublishOwnContentPermission || hasPublishContentPermission ? string.Empty : "disabled")" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="publish-button btn btn-success @(hasPublishContentPermission ? string.Empty : "disabled")" type="submit" name="submit.Publish" value="submit.Publish">@T["Publish"]</button>
+        <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split @(hasPublishContentPermission ? string.Empty : "disabled")" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">@T["Toggle Dropdown"]</span>
         </button>
         <div class="dropdown-menu">
-            <button class="dropdown-item @(hasPublishOwnContentPermission || hasPublishContentPermission ? string.Empty : "disabled")" type="submit" name="submit.Publish" value="submit.PublishAndContinue">@T["and continue"]</button>
+            <button class="dropdown-item @(hasPublishContentPermission ? string.Empty : "disabled")" type="submit" name="submit.Publish" value="submit.PublishAndContinue">@T["and continue"]</button>
         </div>
     </div>
 }

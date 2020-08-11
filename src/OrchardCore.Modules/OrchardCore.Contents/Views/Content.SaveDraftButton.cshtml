@@ -4,7 +4,6 @@
 @{
     ContentItem contentItem = Model.ContentItem;
     var returnUrl = Context.Request.Query["returnUrl"];
-    var hasEditOwnContentPermission = await AuthorizationService.AuthorizeAsync(User, OrchardCore.Contents.Permissions.EditOwnContent, contentItem);
     var hasEditContentPermission = await AuthorizationService.AuthorizeAsync(User, OrchardCore.Contents.Permissions.EditContent, contentItem);
 }
 
@@ -15,12 +14,12 @@
 else
 {
     <div class="btn-group">
-        <button class="btn btn-primary @((hasEditOwnContentPermission && contentItem?.Owner == User.Identity.Name) || hasEditContentPermission ? String.Empty : "disabled")" type="submit" name="submit.Save" value="submit.Save">@T["Save Draft"]</button>
-        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split @((hasEditOwnContentPermission && contentItem?.Owner == User.Identity.Name) || hasEditContentPermission ? String.Empty : "disabled")" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button class="btn btn-primary @(hasEditContentPermission ? String.Empty : "disabled")" type="submit" name="submit.Save" value="submit.Save">@T["Save Draft"]</button>
+        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split @(hasEditContentPermission ? String.Empty : "disabled")" data-reference="parent" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="sr-only">@T["Toggle Dropdown"]</span>
         </button>
         <div class="dropdown-menu">
-            <button class="dropdown-item @((hasEditOwnContentPermission && contentItem?.Owner == User.Identity.Name) || hasEditContentPermission ? String.Empty : "disabled")" type="submit" name="submit.Save" value="submit.SaveAndContinue">@T["and continue"]</button>
+            <button class="dropdown-item @(hasEditContentPermission ? String.Empty : "disabled")" type="submit" name="submit.Save" value="submit.SaveAndContinue">@T["and continue"]</button>
         </div>
     </div>
 }
