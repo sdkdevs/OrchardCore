@@ -10,7 +10,7 @@
 
 @if (String.IsNullOrWhiteSpace(returnUrl))
 {
-    <button type="submit" name="submit.Publish" class="publish-button btn btn-success @(hasPublishOwnContentPermission || hasPublishContentPermission ? string.Empty : "disabled")" value="submit.Publish">@T["Publish"]</button>
+    <button type="submit" name="submit.Publish" class="publish-button btn btn-success @(hasPublishContentPermission ? string.Empty : "disabled")" value="submit.Publish">@T["Publish"]</button>
 }
 else
 {
