@@ -66,4 +66,3 @@ See [CODE-OF-CONDUCT](./CODE-OF-CONDUCT.md)
 ## .NET Foundation
 
 This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
-
